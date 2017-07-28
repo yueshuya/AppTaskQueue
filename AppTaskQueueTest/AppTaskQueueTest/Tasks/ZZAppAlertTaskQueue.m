@@ -16,5 +16,9 @@ single_implementation(ZZAppAlertTaskQueue)
 - (void)loadData {}
 
 
++ (ZZAppAlertTaskQueue *)instance {
+    return [ZZAppAlertTaskQueue shareZZAppAlertTaskQueue];
+}
+
 
 @end

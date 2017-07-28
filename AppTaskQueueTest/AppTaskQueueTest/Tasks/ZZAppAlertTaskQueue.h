@@ -13,7 +13,13 @@
 
 
 @interface ZZAppAlertTaskQueue : NSObject
+
+@property (class, nonatomic, strong, readonly) ZZAppAlertTaskQueue *instance;
+
 single_interface(ZZAppAlertTaskQueue)
+
+
+
 
 
 
