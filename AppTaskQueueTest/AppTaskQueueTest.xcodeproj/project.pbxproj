@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		215EDAA41F2ADCF000DBF43D /* ZZTaskQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 215EDAA31F2ADCF000DBF43D /* ZZTaskQueue.m */; };
+		215EDAA71F2ADF9600DBF43D /* ZZAppTaskQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 215EDAA61F2ADF9600DBF43D /* ZZAppTaskQueue.m */; };
+		215EDAAA1F2B1F7100DBF43D /* ZZAppAlertTaskQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 215EDAA91F2B1F7100DBF43D /* ZZAppAlertTaskQueue.m */; };
 		2187CBF91F258DA500E7D1E4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2187CBF81F258DA500E7D1E4 /* main.m */; };
 		2187CBFC1F258DA500E7D1E4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2187CBFB1F258DA500E7D1E4 /* AppDelegate.m */; };
 		2187CBFF1F258DA500E7D1E4 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2187CBFE1F258DA500E7D1E4 /* ViewController.m */; };
@@ -36,8 +37,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		215EDAA21F2ADCF000DBF43D /* ZZTaskQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZTaskQueue.h; sourceTree = "<group>"; };
-		215EDAA31F2ADCF000DBF43D /* ZZTaskQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZZTaskQueue.m; sourceTree = "<group>"; };
+		215EDAA51F2ADF9600DBF43D /* ZZAppTaskQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZAppTaskQueue.h; sourceTree = "<group>"; };
+		215EDAA61F2ADF9600DBF43D /* ZZAppTaskQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZZAppTaskQueue.m; sourceTree = "<group>"; };
+		215EDAA81F2B1F7100DBF43D /* ZZAppAlertTaskQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZAppAlertTaskQueue.h; sourceTree = "<group>"; };
+		215EDAA91F2B1F7100DBF43D /* ZZAppAlertTaskQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZZAppAlertTaskQueue.m; sourceTree = "<group>"; };
+		215EDAAB1F2B1FE600DBF43D /* singleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = singleton.h; sourceTree = "<group>"; };
 		2187CBF41F258DA500E7D1E4 /* AppTaskQueueTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AppTaskQueueTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2187CBF81F258DA500E7D1E4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2187CBFA1F258DA500E7D1E4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -84,8 +88,11 @@
 		215EDAA11F2ADCDD00DBF43D /* Tasks */ = {
 			isa = PBXGroup;
 			children = (
-				215EDAA21F2ADCF000DBF43D /* ZZTaskQueue.h */,
-				215EDAA31F2ADCF000DBF43D /* ZZTaskQueue.m */,
+				215EDAAB1F2B1FE600DBF43D /* singleton.h */,
+				215EDAA51F2ADF9600DBF43D /* ZZAppTaskQueue.h */,
+				215EDAA61F2ADF9600DBF43D /* ZZAppTaskQueue.m */,
+				215EDAA81F2B1F7100DBF43D /* ZZAppAlertTaskQueue.h */,
+				215EDAA91F2B1F7100DBF43D /* ZZAppAlertTaskQueue.m */,
 			);
 			path = Tasks;
 			sourceTree = "<group>";
@@ -289,9 +296,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				215EDAA41F2ADCF000DBF43D /* ZZTaskQueue.m in Sources */,
 				2187CBFF1F258DA500E7D1E4 /* ViewController.m in Sources */,
 				2187CBFC1F258DA500E7D1E4 /* AppDelegate.m in Sources */,
+				215EDAA71F2ADF9600DBF43D /* ZZAppTaskQueue.m in Sources */,
+				215EDAAA1F2B1F7100DBF43D /* ZZAppAlertTaskQueue.m in Sources */,
 				2187CBF91F258DA500E7D1E4 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -388,7 +396,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -431,7 +439,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -446,7 +454,7 @@
 				DEVELOPMENT_TEAM = G9AP62BQZD;
 				INFOPLIST_FILE = AppTaskQueueTest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.otc-tech.AppTaskQueueTest";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.otc-tech.AppTaskQueueTest6";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -458,7 +466,7 @@
 				DEVELOPMENT_TEAM = G9AP62BQZD;
 				INFOPLIST_FILE = AppTaskQueueTest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.otc-tech.AppTaskQueueTest";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.otc-tech.AppTaskQueueTest6";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
