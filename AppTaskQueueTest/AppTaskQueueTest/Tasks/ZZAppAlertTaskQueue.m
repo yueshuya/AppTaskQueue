@@ -27,6 +27,8 @@ typedef NS_ENUM(NSInteger, ZZAppAlertTaskState) {
 };
 
 
+#pragma mark 任务
+
 @interface __ZZAppAlertTask : NSObject
 
 /**
@@ -37,7 +39,7 @@ typedef NS_ENUM(NSInteger, ZZAppAlertTaskState) {
 /**
  Alert
  */
-@property (nonatomic, weak) UIAlertController *alertVc;
+@property (nonatomic, strong) UIAlertController *alertVc;
 
 /**
  任务状态
@@ -51,6 +53,12 @@ typedef NS_ENUM(NSInteger, ZZAppAlertTaskState) {
 @end
 
 
+
+
+
+
+
+#pragma mark 任务队列
 
 
 @interface ZZAppAlertTaskQueue() {
@@ -92,36 +100,50 @@ single_implementation(ZZAppAlertTaskQueue)
     __weak typeof(self) ws = self;
     alertVc.alertDismissTask = ^{
         weakTask.state = ZZAppAlertTaskStateFinished;
-        [ws _resumeTasksQueue];
+        [ws _refreshTasksQueue];
     };
     dispatch_semaphore_wait(_semaphore, DISPATCH_TIME_FOREVER);
     [self.taskArr addObject:task];
     dispatch_semaphore_signal(_semaphore);
-    [self _resumeTasksQueue];
+    [self _refreshTasksQueue];
 }
 
 
 
 /**
- 激活任务队列
+ 刷新任务队列
  */
-- (void)_resumeTasksQueue {
-    dispatch_semaphore_wait(_semaphore, DISPATCH_TIME_FOREVER);
-    if (self.taskArr.count > 0) {
-        __ZZAppAlertTask *task = self.taskArr[0];
-        if (task.state == ZZAppAlertTaskStateWaitting) {
-            [self _resumeTask:task];
+- (void)_refreshTasksQueue {
+    [_operationQueue addOperationWithBlock:^{
+        dispatch_semaphore_wait(_semaphore, DISPATCH_TIME_FOREVER);
+        while (self.taskArr.count > 0) {
+            __ZZAppAlertTask *task = self.taskArr[0];
+            if (task.state == ZZAppAlertTaskStateRunning) {
+                break;
+            }else if (task.state == ZZAppAlertTaskStateWaitting) {
+                [self _resumeTask:task];
+                break;
+            }else if (task.state == ZZAppAlertTaskStateFinished || task.state == ZZAppAlertTaskStateCancelled) {
+                [self.taskArr removeObject:task];
+            }
         }
-    }
-    dispatch_semaphore_signal(_semaphore);
+        dispatch_semaphore_signal(_semaphore);
+    }];
 }
 
 
+
+/**
+ 激活任务
+ 
+ @param task 要激活的任务
+ */
 - (void)_resumeTask:(__ZZAppAlertTask *)task {
     UIViewController *pVc = ZZAnchor.singleton.presentingSite;
     if (pVc) {
-        [pVc presentViewController:task.alertVc animated:YES completion:^{
-            task.state = ZZAppAlertTaskStateRunning;
+        task.state = ZZAppAlertTaskStateRunning;
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            [pVc presentViewController:task.alertVc animated:YES completion:nil];
         }];
     }
 }
@@ -131,6 +153,12 @@ single_implementation(ZZAppAlertTaskQueue)
 
 
 
+/**
+ 根据 key 值获取对应的 task
+ 
+ @param uniqueKey 唯一标识 key
+ @return 对应的 task
+ */
 - (__ZZAppAlertTask *)_taskForKey:(NSString *)uniqueKey {
     if (!uniqueKey || [@"" isEqualToString:uniqueKey]) {
         return nil;
@@ -149,20 +177,6 @@ single_implementation(ZZAppAlertTaskQueue)
 
 
 
-
-
-
-
-/**
- 检查对应的 uniqueKey 是否已存在对应的任务
- 
- @param uniqueKey 唯一标记
- @return YES/NO
- */
-- (BOOL)_checkDuplicate:(NSString *)uniqueKey {
-    
-    return NO;
-}
 
 
 - (NSMutableArray<__ZZAppAlertTask *> *)taskArr {

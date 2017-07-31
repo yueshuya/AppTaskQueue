@@ -21,4 +21,9 @@
     }
 }
 
+
+- (void)dealloc {
+    NSLog(@" Alert is dealloc -------");
+}
+
 @end
