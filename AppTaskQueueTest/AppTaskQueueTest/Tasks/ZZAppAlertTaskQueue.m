@@ -8,6 +8,23 @@
 
 #import "ZZAppAlertTaskQueue.h"
 
+
+/**
+ App Alert Task 的状态
+ 
+ - ZZAppAlertTaskStateWaitting:  等待执行
+ - ZZAppAlertTaskStateRunning:   正在执行
+ - ZZAppAlertTaskStateCancelled: 被取消
+ - ZZAppAlertTaskStateFinished:  任务完成
+ */
+typedef NS_ENUM(NSInteger, ZZAppAlertTaskState) {
+    ZZAppAlertTaskStateWaitting,
+    ZZAppAlertTaskStateRunning,
+    ZZAppAlertTaskStateCancelled,
+    ZZAppAlertTaskStateFinished
+};
+
+
 @interface __ZZAppAlertTask : NSObject
 
 @property (nonatomic, copy) NSString *uniqueKey;
@@ -24,9 +41,13 @@
 
 
 @interface ZZAppAlertTaskQueue() {
-//    dispatch_semaphore_t 
+    dispatch_semaphore_t _semaphore;
 }
 
+
+/**
+    Alert 任务数组
+ */
 @property (nonatomic, strong) NSMutableArray<__ZZAppAlertTask *> *taskArr;
 
 @end
@@ -38,16 +59,53 @@
 
 single_implementation(ZZAppAlertTaskQueue)
 
-- (void)loadData {}
+- (void)loadData {
+    _semaphore = dispatch_semaphore_create(1);
+}
 
 
 
 
 - (void)addAlert:(UIAlertController *)alertVc key:(NSString *)uniqueKey {
+    if ([self _taskForKey:uniqueKey]) {
+        return;
+    }
+    __ZZAppAlertTask *task = [[__ZZAppAlertTask alloc] init];
+    task.uniqueKey = uniqueKey;
+    task.alertVc = alertVc;
+    dispatch_semaphore_wait(_semaphore, DISPATCH_TIME_FOREVER);
+    [self.taskArr addObject:task];
+    dispatch_semaphore_signal(_semaphore);
+    [self _resumeTasks];
+}
+
+
+
+/**
+ 激活任务队列
+ */
+- (void)_resumeTasks {
     
 }
 
 
+
+
+- (__ZZAppAlertTask *)_taskForKey:(NSString *)uniqueKey {
+    if (!uniqueKey || [@"" isEqualToString:uniqueKey]) {
+        return nil;
+    }
+    __ZZAppAlertTask *target = nil;
+    dispatch_semaphore_wait(_semaphore, DISPATCH_TIME_FOREVER);
+    for (__ZZAppAlertTask *task in self.taskArr) {
+        if ([uniqueKey isEqualToString:task.uniqueKey]) {
+            target = task;
+            break;
+        }
+    }
+    dispatch_semaphore_signal(_semaphore);
+    return target;
+}
 
 
 
