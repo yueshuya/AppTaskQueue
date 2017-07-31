@@ -1,0 +1,18 @@
+source 'https://github.com/CocoaPods/Specs.git'
+source 'git@10.0.50.71:/home/git/zzjs.git'
+
+platform:ios,'8.0'
+
+
+
+target 'AppTaskQueueTest' do
+     pod 'ZZContainerPOD', '~> 2.0.3'
+     pod 'BA_GlobalConfigPOD', '~> 0.1.2'
+     pod 'BB_BaseClassPOD', '~> 0.1.3'
+     pod 'BC_BasicToolPOD', '~> 0.1.3'
+
+     
+end
+
+
+

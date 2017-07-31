@@ -7,6 +7,8 @@
 //
 
 #import "ZZAppAlertTaskQueue.h"
+#import "ZZTaskAlertController.h"
+#import <ZZContainer/ZZContainer.h>
 
 
 /**
@@ -27,9 +29,20 @@ typedef NS_ENUM(NSInteger, ZZAppAlertTaskState) {
 
 @interface __ZZAppAlertTask : NSObject
 
+/**
+ 唯一标识
+ */
 @property (nonatomic, copy) NSString *uniqueKey;
 
-@property (nonatomic, strong) UIAlertController *alertVc;
+/**
+ Alert
+ */
+@property (nonatomic, weak) UIAlertController *alertVc;
+
+/**
+ 任务状态
+ */
+@property (nonatomic, assign) ZZAppAlertTaskState state;
 
 @end
 
@@ -42,6 +55,7 @@ typedef NS_ENUM(NSInteger, ZZAppAlertTaskState) {
 
 @interface ZZAppAlertTaskQueue() {
     dispatch_semaphore_t _semaphore;
+    NSOperationQueue *_operationQueue;
 }
 
 
@@ -61,22 +75,29 @@ single_implementation(ZZAppAlertTaskQueue)
 
 - (void)loadData {
     _semaphore = dispatch_semaphore_create(1);
+    _operationQueue = [[NSOperationQueue alloc] init];
 }
 
 
 
 
-- (void)addAlert:(UIAlertController *)alertVc key:(NSString *)uniqueKey {
+- (void)addAlert:(ZZTaskAlertController *)alertVc key:(NSString *)uniqueKey {
     if ([self _taskForKey:uniqueKey]) {
         return;
     }
     __ZZAppAlertTask *task = [[__ZZAppAlertTask alloc] init];
     task.uniqueKey = uniqueKey;
     task.alertVc = alertVc;
+    __weak typeof(task) weakTask = task;
+    __weak typeof(self) ws = self;
+    alertVc.alertDismissTask = ^{
+        weakTask.state = ZZAppAlertTaskStateFinished;
+        [ws _resumeTasksQueue];
+    };
     dispatch_semaphore_wait(_semaphore, DISPATCH_TIME_FOREVER);
     [self.taskArr addObject:task];
     dispatch_semaphore_signal(_semaphore);
-    [self _resumeTasks];
+    [self _resumeTasksQueue];
 }
 
 
@@ -84,9 +105,28 @@ single_implementation(ZZAppAlertTaskQueue)
 /**
  激活任务队列
  */
-- (void)_resumeTasks {
-    
+- (void)_resumeTasksQueue {
+    dispatch_semaphore_wait(_semaphore, DISPATCH_TIME_FOREVER);
+    if (self.taskArr.count > 0) {
+        __ZZAppAlertTask *task = self.taskArr[0];
+        if (task.state == ZZAppAlertTaskStateWaitting) {
+            [self _resumeTask:task];
+        }
+    }
+    dispatch_semaphore_signal(_semaphore);
 }
+
+
+- (void)_resumeTask:(__ZZAppAlertTask *)task {
+    UIViewController *pVc = ZZAnchor.singleton.presentingSite;
+    if (pVc) {
+        [pVc presentViewController:task.alertVc animated:YES completion:^{
+            task.state = ZZAppAlertTaskStateRunning;
+        }];
+    }
+}
+
+
 
 
 
