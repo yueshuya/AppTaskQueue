@@ -35,4 +35,13 @@ single_interface(ZZAppTaskQueue)
 
 
 
+#warning TODO 还有何时启动的问题
+
+/**
+ 启动任务队列
+ */
+- (void)launchTasks;
+
+
+
 @end

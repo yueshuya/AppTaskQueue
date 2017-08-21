@@ -7,6 +7,9 @@
 //
 
 #import "AppDelegate.h"
+#import "ZZAppTaskQueue.h"
+#import "MyViewController.h"
+
 
 @interface AppDelegate ()
 
@@ -16,7 +19,49 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    [[ZZAppTaskQueue shareZZAppTaskQueue] addTask:^(void (^completeHandler)(NSString *key)) {
+        MyViewController *vc = [[MyViewController alloc] init];
+        vc.dismissTask = ^{
+            completeHandler(@"1");
+        };
+        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:vc animated:YES completion:^{
+            NSLog(@"11111111111111");
+        }];
+    } priority:1 forUniqueKey:@"1"];
+    
+    
+    [[ZZAppTaskQueue shareZZAppTaskQueue] addTask:^(void (^completeHandler)(NSString *key)) {
+        MyViewController *vc = [[MyViewController alloc] init];
+        vc.dismissTask = ^{
+            completeHandler(@"2");
+        };
+        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:vc animated:YES completion:^{
+            NSLog(@"2222222222222222");
+        }];
+    } priority:2 forUniqueKey:@"2"];
+    
+    
+    [[ZZAppTaskQueue shareZZAppTaskQueue] addTask:^(void (^completeHandler)(NSString *key)) {
+        MyViewController *vc = [[MyViewController alloc] init];
+        vc.dismissTask = ^{
+            completeHandler(@"3");
+        };
+        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:vc animated:YES completion:^{
+            NSLog(@"3333333333333");
+        }];
+    } priority:3 forUniqueKey:@"3"];
+    
+    
+    [[ZZAppTaskQueue shareZZAppTaskQueue] addTask:^(void (^completeHandler)(NSString *key)) {
+        MyViewController *vc = [[MyViewController alloc] init];
+        vc.dismissTask = ^{
+            completeHandler(@"4");
+        };
+        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:vc animated:YES completion:^{
+            NSLog(@"444444444444");
+        }];
+    } priority:4 forUniqueKey:@"4"];
+    
     return YES;
 }
 

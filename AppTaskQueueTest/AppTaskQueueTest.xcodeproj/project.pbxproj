@@ -18,6 +18,7 @@
 		2187CC071F258DA500E7D1E4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2187CC051F258DA500E7D1E4 /* LaunchScreen.storyboard */; };
 		2187CC121F258DA500E7D1E4 /* AppTaskQueueTestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2187CC111F258DA500E7D1E4 /* AppTaskQueueTestTests.m */; };
 		2187CC1D1F258DA500E7D1E4 /* AppTaskQueueTestUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2187CC1C1F258DA500E7D1E4 /* AppTaskQueueTestUITests.m */; };
+		219306331F4A769700685AF6 /* MyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 219306321F4A769700685AF6 /* MyViewController.m */; };
 		66DA4F78EE714FC7C1E91F72 /* libPods-AppTaskQueueTest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4977ECD31F4A5548E96D06B6 /* libPods-AppTaskQueueTest.a */; };
 /* End PBXBuildFile section */
 
@@ -62,6 +63,8 @@
 		2187CC181F258DA500E7D1E4 /* AppTaskQueueTestUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppTaskQueueTestUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2187CC1C1F258DA500E7D1E4 /* AppTaskQueueTestUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppTaskQueueTestUITests.m; sourceTree = "<group>"; };
 		2187CC1E1F258DA500E7D1E4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		219306311F4A769700685AF6 /* MyViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyViewController.h; sourceTree = "<group>"; };
+		219306321F4A769700685AF6 /* MyViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyViewController.m; sourceTree = "<group>"; };
 		393F04C5CA21F4CEDC7C8009 /* Pods-AppTaskQueueTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppTaskQueueTest.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AppTaskQueueTest/Pods-AppTaskQueueTest.debug.xcconfig"; sourceTree = "<group>"; };
 		4977ECD31F4A5548E96D06B6 /* libPods-AppTaskQueueTest.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AppTaskQueueTest.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEC05B73F83C46CEB4D50F63 /* Pods-AppTaskQueueTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppTaskQueueTest.release.xcconfig"; path = "Pods/Target Support Files/Pods-AppTaskQueueTest/Pods-AppTaskQueueTest.release.xcconfig"; sourceTree = "<group>"; };
@@ -158,6 +161,8 @@
 				2187CC051F258DA500E7D1E4 /* LaunchScreen.storyboard */,
 				2187CC081F258DA500E7D1E4 /* Info.plist */,
 				2187CBF71F258DA500E7D1E4 /* Supporting Files */,
+				219306311F4A769700685AF6 /* MyViewController.h */,
+				219306321F4A769700685AF6 /* MyViewController.m */,
 			);
 			path = AppTaskQueueTest;
 			sourceTree = "<group>";
@@ -398,6 +403,7 @@
 				2187CBFC1F258DA500E7D1E4 /* AppDelegate.m in Sources */,
 				2180C3E91F4A66DD00B00F9B /* ZZAppTaskQueue.m in Sources */,
 				2187CBF91F258DA500E7D1E4 /* main.m in Sources */,
+				219306331F4A769700685AF6 /* MyViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
