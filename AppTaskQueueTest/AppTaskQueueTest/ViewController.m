@@ -40,7 +40,7 @@
     
     
     
-    [[ZZAppTaskQueue shareZZAppTaskQueue] launchTasks];
+    [[ZZAppTaskQueue shareZZAppTaskQueue] readyToRun];
     
     
     

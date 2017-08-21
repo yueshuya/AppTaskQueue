@@ -17,8 +17,6 @@
  
     非高优先级的任务执行时间过长则被丢弃，以便执行下一个。
  
-     目前应用场景有限，只有一个：在 App 启动或者从挂起进入前台的时候使用。
- 
  */
 
 
@@ -35,7 +33,7 @@ single_interface(ZZAppTaskQueue)
 /**
  添加一个任务
  
- @param task        任务
+ @param task        任务 - 这个里面的 completeHandler 一定要在你的任务完成之后调用一下，来表明你的任务完成了，否则会认为你的任务一直没有完成。
  @param priority    优先级
  @param key         唯一标识
  */
@@ -45,12 +43,11 @@ single_interface(ZZAppTaskQueue)
 
 
 
-#warning TODO 还有何时启动的问题
-
 /**
- 启动任务队列，不需要队列使用者手动调用
+ 设置可以运行 - 这个一定要找一个地方进行设置，最好是根控制器的 didAppear 或者 AppDelegate 的 -applicationDidBecomeActive 里面
  */
-- (void)launchTasks;
+- (void)readyToRun;
+
 
 
 

@@ -7,6 +7,7 @@
 //
 
 #import "ZZAppTaskQueue.h"
+#import <UIKit/UIKit.h>
 
 
 /**
@@ -51,6 +52,8 @@ typedef NS_ENUM(NSInteger, ZZAppTaskState) {
 
 @property (nonatomic, weak) __ZZAppTask *runningTask;
 
+@property (nonatomic, assign) BOOL ready;
+
 @end
 
 
@@ -61,9 +64,17 @@ single_implementation(ZZAppTaskQueue)
 
 - (void)loadData {
     _semaphore = dispatch_semaphore_create(1);
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_clearReadyTag) name:UIApplicationDidEnterBackgroundNotification object:nil];
 }
 
 
+
+/**
+ 清理 ready 标记 ———— 即不能开始任务
+ */
+- (void)_clearReadyTag {
+    _ready = NO;
+}
 
 
 
@@ -85,11 +96,16 @@ single_implementation(ZZAppTaskQueue)
     task.priority = priority;
     
     [self _arrangeTask:task];
+    
+    [self _launchTasks];
 }
 
 
 
-- (void)launchTasks {
+- (void)_launchTasks {
+    if (!_ready) {
+        return;
+    }
     if (_runningTask) {
         return;
     }
@@ -110,13 +126,19 @@ single_implementation(ZZAppTaskQueue)
                     curTask.state = ZZAppTaskStateFinished;
                     [ws.taskArr removeObject:curTask];
                     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                        [[ZZAppTaskQueue shareZZAppTaskQueue] launchTasks];
+                        [[ZZAppTaskQueue shareZZAppTaskQueue] _launchTasks];
                     }];
                     break;
                 }
             }
         });
     }
+}
+
+
+- (void)readyToRun {
+    _ready = YES;
+    [self _launchTasks];
 }
 
 
