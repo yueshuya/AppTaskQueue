@@ -29,7 +29,8 @@ typedef NS_ENUM(NSInteger, ZZAppTaskState) {
 
 @property (nonatomic, copy) NSString *taskID;
 @property (nonatomic, assign) ZZAppTaskState state;
-//@property (nonatomic, )
+@property (nonatomic, copy) void(^task)(void(^completeHandler)(NSString *key));
+@property (nonatomic, assign) NSUInteger priority; // 优先级
 
 @end
 
@@ -43,5 +44,27 @@ typedef NS_ENUM(NSInteger, ZZAppTaskState) {
 
 
 @implementation ZZAppTaskQueue
+
+single_implementation(ZZAppTaskQueue)
+
+
+- (void)loadData {}
+
+
+
+
+
+- (void)addTask:(void (^)(void (^)(NSString *)))taskBlock
+       priority:(NSUInteger)priority
+   forUniqueKey:(NSString *)key {
+    __ZZAppTask *task = [[__ZZAppTask alloc] init];
+    task.taskID = key;
+    task.state = ZZAppTaskStateWaitting;
+    task.task = taskBlock;
+    task.priority = priority;
+    
+}
+
+
 
 @end

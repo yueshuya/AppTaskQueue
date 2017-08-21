@@ -22,7 +22,17 @@
 
 
 #import <Foundation/Foundation.h>
+#import "singleton.h"
 
 @interface ZZAppTaskQueue : NSObject
+
+single_interface(ZZAppTaskQueue)
+
+
+- (void)addTask:(void(^)(void(^completeHandler)(NSString *key)))task
+       priority:(NSUInteger)priority
+   forUniqueKey:(NSString *)key;
+
+
 
 @end
