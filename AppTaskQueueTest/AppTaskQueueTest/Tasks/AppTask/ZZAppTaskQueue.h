@@ -30,6 +30,17 @@ single_interface(ZZAppTaskQueue)
 
 
 
+
+/**
+ 设置可以运行 - 这个一定要找一个地方进行设置，最好是根控制器的 didAppear 或者 AppDelegate 的 -applicationDidBecomeActive 里面
+ */
+- (void)readyToRun;
+
+
+
+
+
+
 /**
  添加一个任务
  
@@ -43,10 +54,7 @@ single_interface(ZZAppTaskQueue)
 
 
 
-/**
- 设置可以运行 - 这个一定要找一个地方进行设置，最好是根控制器的 didAppear 或者 AppDelegate 的 -applicationDidBecomeActive 里面
- */
-- (void)readyToRun;
+
 
 
 
