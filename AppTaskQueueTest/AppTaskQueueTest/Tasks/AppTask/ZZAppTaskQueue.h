@@ -17,6 +17,8 @@
  
     非高优先级的任务执行时间过长则被丢弃，以便执行下一个。
  
+     目前应用场景有限，只有一个：在 App 启动或者从挂起进入前台的时候使用。
+ 
  */
 
 
@@ -29,6 +31,14 @@
 single_interface(ZZAppTaskQueue)
 
 
+
+/**
+ 添加一个任务
+ 
+ @param task        任务
+ @param priority    优先级
+ @param key         唯一标识
+ */
 - (void)addTask:(void(^)(void(^completeHandler)(NSString *key)))task
        priority:(NSUInteger)priority
    forUniqueKey:(NSString *)key;
@@ -38,7 +48,7 @@ single_interface(ZZAppTaskQueue)
 #warning TODO 还有何时启动的问题
 
 /**
- 启动任务队列
+ 启动任务队列，不需要队列使用者手动调用
  */
 - (void)launchTasks;
 

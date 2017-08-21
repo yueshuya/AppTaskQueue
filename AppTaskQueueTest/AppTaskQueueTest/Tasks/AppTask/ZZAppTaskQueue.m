@@ -109,7 +109,6 @@ single_implementation(ZZAppTaskQueue)
                 if ([curTask.taskID isEqualToString:key]) {
                     curTask.state = ZZAppTaskStateFinished;
                     [ws.taskArr removeObject:curTask];
-                    // TODO NEXT
                     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                         [[ZZAppTaskQueue shareZZAppTaskQueue] launchTasks];
                     }];
